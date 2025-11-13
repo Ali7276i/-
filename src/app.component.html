@@ -1,0 +1,69 @@
+
+<main class="min-h-screen bg-slate-100 flex items-center justify-center p-4" dir="rtl">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-slate-800">حاسبة مؤشر كتلة الجسم</h1>
+      <p class="text-slate-500 mt-2">أدخل وزنك وطولك لحساب مؤشر كتلة جسمك</p>
+    </div>
+
+    <form (ngSubmit)="calculate()" class="space-y-6">
+      <div>
+        <label for="weight" class="block text-sm font-medium text-slate-700 mb-1">الوزن (كجم)</label>
+        <div class="relative">
+          <input
+            type="number"
+            id="weight"
+            name="weight"
+            [(ngModel)]="weight"
+            placeholder="مثال: 70"
+            required
+            min="1"
+            class="w-full px-4 py-2.5 text-slate-700 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="height" class="block text-sm font-medium text-slate-700 mb-1">الطول (سم)</label>
+        <div class="relative">
+          <input
+            type="number"
+            id="height"
+            name="height"
+            [(ngModel)]="height"
+            placeholder="مثال: 175"
+            required
+            min="1"
+            class="w-full px-4 py-2.5 text-slate-700 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="!weight() || !height() || weight() <= 0 || height() <= 0"
+        class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:bg-slate-400 disabled:cursor-not-allowed"
+      >
+        احسب BMI
+      </button>
+    </form>
+    
+    @if (submitted()) {
+      <div class="mt-8 pt-6 border-t border-slate-200 text-center animate-fade-in">
+        @if (bmi(); as bmiValue) {
+          <div>
+            <p class="text-lg text-slate-600">مؤشر كتلة الجسم الخاص بك هو:</p>
+            <p class="text-5xl font-extrabold my-2" [class]="result().color">
+              {{ bmiValue.toFixed(1) }}
+            </p>
+            <p class="text-xl font-semibold" [class]="result().color">
+              {{ result().category }}
+            </p>
+          </div>
+        } @else {
+          <p class="text-red-500 font-medium">الرجاء إدخال قيم صالحة وموجبة للوزن والطول.</p>
+        }
+      </div>
+    }
+  </div>
+</main>
